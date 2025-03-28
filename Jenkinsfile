@@ -21,23 +21,23 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh 'mvn sonar:sonar'
-                }
-            }
-        }
-
-        // stage('Publish Artifact to Nexus') {
+        // stage('SonarQube Analysis') {
         //     steps {
-        //         sh '''
-        //         mvn deploy \
-        //             -DaltDeploymentRepository=nexus::default::${NEXUS_URL}/repository/${NEXUS_REPO}/ \
-        //             -DrepositoryId=nexus
-        //         '''
+        //         withSonarQubeEnv('SonarQube') {
+        //             sh 'mvn sonar:sonar'
+        //         }
         //     }
         // }
+
+        stage('Publish Artifact to Nexus') {
+            steps {
+                sh '''
+                mvn deploy \
+                    -DaltDeploymentRepository=nexus::default::${NEXUS_URL}/repository/${NEXUS_REPO}/ \
+                    -DrepositoryId=nexus
+                '''
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
