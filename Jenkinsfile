@@ -17,7 +17,7 @@ pipeline {
                 script {
                     def loginResponse = sh(
                         script: """
-                        curl -u admin:cityreal -s -o /dev/null -w "%{http_code}" $NEXUS_URL/service/rest/v1/status
+                        curl -u sufi:cityreal -s -o /dev/null -w "%{http_code}" $NEXUS_URL/service/rest/v1/status
                         """,
                         returnStdout: true
                     ).trim()
@@ -60,8 +60,8 @@ pipeline {
         sh '''
         mvn deploy \
             -DaltDeploymentRepository=nexus::default::http://10.227.141.96:8081/repository/maven-releases/ \
-            -DrepositoryId=admin \
-            -Dnexus.user=admin \
+            -DrepositoryId=sufi\
+            -Dnexus.user=sufi\
             -Dnexus.pass=cityreal
         '''
     }
