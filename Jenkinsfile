@@ -11,6 +11,25 @@ pipeline {
 
     stages 
     {
+
+        stage('Login to Nexus') {
+            steps {
+                script {
+                    def loginResponse = sh(
+                        script: """
+                        curl -u admin:cityreal -s -o /dev/null -w "%{http_code}" $NEXUS_URL/service/rest/v1/status
+                        """,
+                        returnStdout: true
+                    ).trim()
+
+                    if (loginResponse == "200") {
+                        echo "✅ Login Successful: Done"
+                    } else {
+                        error "❌ Login Failed! Status Code: $loginResponse"
+                    }
+                }
+            }
+        }
         stage('Checkout') 
         {
             steps 
@@ -24,6 +43,7 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+
 
         // stage('SonarQube Analysis') {
         //     steps {
