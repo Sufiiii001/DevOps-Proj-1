@@ -41,8 +41,8 @@ pipeline {
         mvn deploy \
             -DaltDeploymentRepository=nexus::default::http://10.227.141.96:8081/repository/maven-releases/ \
             -DrepositoryId=nexus \
-            -Dnexus.user=your-nexus-username \
-            -Dnexus.pass=your-nexus-password
+            -Dnexus.user=admin \
+            -Dnexus.pass=cityreal
         '''
     }
 }
