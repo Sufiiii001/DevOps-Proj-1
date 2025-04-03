@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        NEXUS_URL = "http://10.227.141.103:8081"
+        NEXUS_URL = "http://10.227.141.96:8081"
         NEXUS_REPO = "maven-releases"
         // DOCKER_HUB_USER = "your-docker-hub-username"
         IMAGE_NAME = "spring-boot-app:latest"
