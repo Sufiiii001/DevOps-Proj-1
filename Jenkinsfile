@@ -1,16 +1,20 @@
 pipeline {
     agent any
 
-    environment {
+    environment 
+    {
         NEXUS_URL = "http://10.227.141.96:8081"
         NEXUS_REPO = "maven-releases"
         // DOCKER_HUB_USER = "your-docker-hub-username"
         IMAGE_NAME = "spring-boot-app:latest"
     }
 
-    stages {
-        stage('Checkout') {
-            steps {
+    stages 
+    {
+        stage('Checkout') 
+        {
+            steps 
+            {
                 git branch: 'main', url: 'https://github.com/Sufiiii001/DevOps-Proj-1'
             }
         }
@@ -29,18 +33,26 @@ pipeline {
         //     }
         // }
 
-        stage('Publish Artifact to Nexus') {
-            steps {
-                sh '''
-                mvn deploy \
-                    -DaltDeploymentRepository=nexus::default::${NEXUS_URL}/repository/${NEXUS_REPO}/ \
-                    -DrepositoryId=nexus
-                '''
-            }
-        }
+        stage('Publish Artifact to Nexus') 
+        {
+    steps 
+    {
+        sh '''
+        mvn deploy \
+            -DaltDeploymentRepository=nexus::default::http://10.227.141.96:8081/repository/maven-releases/ \
+            -DrepositoryId=nexus \
+            -Dnexus.user=your-nexus-username \
+            -Dnexus.pass=your-nexus-password
+        '''
+    }
+}
 
-        stage('Build Docker Image') {
-            steps {
+        
+
+        stage('Build Docker Image') 
+        {
+            steps 
+            {
                 sh 'sudo docker build -t $IMAGE_NAME .'
             }
         }
