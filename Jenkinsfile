@@ -3,10 +3,10 @@ pipeline {
 
     environment 
     {
-        NEXUS_URL = "http://10.227.141.96:8081"
+        NEXUS_URL = "http://10.227.141.120:12001"
         NEXUS_REPO = "maven-releases"
         // DOCKER_HUB_USER = "your-docker-hub-username"
-        IMAGE_NAME = "spring-boot-app:latest"
+        IMAGE_NAME = "demo-app:v2"
     }
 
     stages 
@@ -60,9 +60,9 @@ withCredentials([usernamePassword(credentialsId: 'nexus-docker-creds', usernameV
     steps 
     {
         sh '''
-docker build -t demo-app:v1 .
-docker tag demo-app:v1 10.227.141.96:12001/mydocker/demo-app:v1
-docker push 10.227.141.96:12001/mydocker/demo-app:v1
+docker build -t demo-app:v2 .
+docker tag demo-app:v1 10.227.141.96:12001/mydocker/demo-app:v2
+docker push 10.227.141.96:12001/mydocker/demo-app:v2
         '''
     }
 }
