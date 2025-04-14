@@ -44,11 +44,11 @@
     <distributionManagement>
         <repository>
             <id>admin</id>
-            <url>http://10.227.141.96:8081/repository/maven-releases/</url>
+            <url>http://10.227.141.120:12001/repository/mydocker/</url>
         </repository>
         <snapshotRepository>
             <id>admin</id>
-            <url>http://10.227.141.96:8081/repository/maven-snapshots/</url>
+            <url>http://10.227.141.120:12001/repository/mydocker/</url>
         </snapshotRepository>
     </distributionManagement>
 

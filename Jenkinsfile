@@ -14,20 +14,11 @@ pipeline {
 
         stage('Login to Nexus') {
             steps {
-                script {
-                    def loginResponse = sh(
-                        script: """
-                        curl -u sufi:cityreal -s -o /dev/null -w "%{http_code}" $NEXUS_URL/service/rest/v1/status
-                        """,
-                        returnStdout: true
-                    ).trim()
-
-                    if (loginResponse == "200") {
-                        echo "✅ Login Successful: Done"
-                    } else {
-                        error "❌ Login Failed! Status Code: $loginResponse"
-                    }
-                }
+withCredentials([usernamePassword(credentialsId: 'nexus-docker-creds', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
+            sh '''
+                echo "$NEXUS_PASS" | docker login http://10.227.141.120:12001 --username "$NEXUS_USER" --password-stdin
+            '''
+        }
             }
         }
         stage('Checkout') 
@@ -53,19 +44,6 @@ pipeline {
         //     }
         // }
 
-        stage('Publish Artifact to Nexus') 
-        {
-    steps 
-    {
-        sh '''
-        mvn deploy \
-            -DaltDeploymentRepository=nexus::default::http://10.227.141.96:8081/repository/maven-releases/ \
-            -DrepositoryId=sufi\
-            -Dnexus.user=sufi\
-            -Dnexus.pass=cityreal
-        '''
-    }
-}
 
         
 
@@ -76,6 +54,18 @@ pipeline {
                 sh 'sudo docker build -t $IMAGE_NAME .'
             }
         }
+
+                stage('Publish Artifact to Nexus') 
+        {
+    steps 
+    {
+        sh '''
+docker build -t demo-app:v1 .
+docker tag demo-app:v1 10.227.141.96:12001/mydocker/demo-app:v1
+docker push 10.227.141.96:12001/mydocker/demo-app:v1
+        '''
+    }
+}
 
         // stage('Push to Docker Hub') {
         //     steps {
