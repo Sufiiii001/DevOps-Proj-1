@@ -61,7 +61,7 @@ withCredentials([usernamePassword(credentialsId: 'nexus-docker-creds', usernameV
     {
         sh '''
 docker build -t demo-app:v2 .
-docker tag demo-app:v1 10.227.141.96:12001/mydocker/demo-app:v2
+docker tag demo-app:v2 10.227.141.96:12001/mydocker/demo-app:v2
 docker push 10.227.141.96:12001/mydocker/demo-app:v2
         '''
     }
